@@ -1,0 +1,31 @@
+{
+  "name": "subasta-stands-api",
+  "version": "1.0.0",
+  "description": "template api para subastas con puntos",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BurritoQuemado/subasta-stands-api.git"
+  },
+  "author": "Diego Flores",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BurritoQuemado/subasta-stands-api/issues"
+  },
+  "homepage": "https://github.com/BurritoQuemado/subasta-stands-api#readme",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "knex": "^2.5.1",
+    "pg": "^8.11.2"
+  }
+}
