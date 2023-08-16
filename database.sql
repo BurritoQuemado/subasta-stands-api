@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS users (
     name VARCHAR(255) NOT NULL,
     lastname VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    currency BIGINT NOT NULL default 0,
+    balance BIGINT NOT NULL default 0,
     updated_at TIMESTAMP,
     created_at TIMESTAMP
 );
@@ -29,4 +29,4 @@ CREATE TABLE IF NOT EXISTS codes_visited_list (
     user_id BIGINT NOT NULL,
     FOREIGN KEY (code_id) REFERENCES codes (id),
     FOREIGN KEY (user_id) REFERENCES users (id)
-); 
+);

@@ -107,7 +107,7 @@ app.get('/profile/', (req, res) => {
     })
 })
 
-app.post('/addCurrency', (req, res) => {
+app.post('/updateBalance', (req, res) => {
     const { user_id, currency } = req.body;
     const timestamp = new Date();
 
@@ -115,7 +115,7 @@ app.post('/addCurrency', (req, res) => {
         return res.status(200).json('Not a user')
     } else 
     {
-        db.select('currency').from('users')
+        db.select('balance').from('users')
         .where("id","=",user_id)
         .then(balance => {
             new_balance = parseInt(currency) + parseInt(balance[0].currency);
@@ -125,11 +125,11 @@ app.post('/addCurrency', (req, res) => {
             db('users')
             .where('id','=',user_id)
             .update({
-                currency: new_balance,
+                balance: new_balance,
                 updated_at: timestamp   
             })
             .then(updated_user => {
-                res.json(updated_user)
+                res.json('Success updating balance on user ' + user_id)
             }
             )
         })
@@ -139,7 +139,7 @@ app.post('/addCurrency', (req, res) => {
 })
 
 app.get('/getUsersInfo', (req, res) => {
-    db.select('name','currency','email','id')
+    db.select('name','balance','email','id')
     .from('users')
     .then(users => {
         return res.json(users);
