@@ -118,7 +118,7 @@ app.post('/updateBalance', (req, res) => {
         db.select('balance').from('users')
         .where("id","=",user_id)
         .then(balance => {
-            new_balance = parseInt(currency) + parseInt(balance[0].currency);
+            new_balance = parseInt(currency) + parseInt(balance[0].balance);
             return new_balance;
         })
         .then(new_balance => {
