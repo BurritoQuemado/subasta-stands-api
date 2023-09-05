@@ -23,10 +23,11 @@ CREATE TABLE IF NOT EXISTS codes (
     value BIGINT default 0
 );
 
-CREATE TABLE IF NOT EXISTS codes_visited_list (
+CREATE TABLE IF NOT EXISTS transactions (
     id SERIAL PRIMARY KEY,
-    code_id BIGINT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    amount BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
-    FOREIGN KEY (code_id) REFERENCES codes (id),
+    date_time TIMESTAMP NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
