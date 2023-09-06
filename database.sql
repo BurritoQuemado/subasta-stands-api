@@ -16,12 +16,20 @@ CREATE TABLE IF NOT EXISTS login (
     hash VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS valid_codes (
+    id SERIAL PRIMARY KEY,
+    code VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    value BIGINT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS transactions (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
-    code VARCHAR(255) NOT NULL,
     amount BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
+    valid_code_id BIGINT NOT NULL,
     date_time TIMESTAMP NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users (id)
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (valid_code_id) REFERENCES valid_codes (id)
 );
