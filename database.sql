@@ -16,16 +16,10 @@ CREATE TABLE IF NOT EXISTS login (
     hash VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS codes (
-    id SERIAL PRIMARY KEY,
-    code VARCHAR(255) UNIQUE NOT NULL,
-    equipment VARCHAR(255) NOT NULL,
-    value BIGINT default 0
-);
-
 CREATE TABLE IF NOT EXISTS transactions (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
+    code VARCHAR(255) NOT NULL,
     amount BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
     date_time TIMESTAMP NOT NULL,
