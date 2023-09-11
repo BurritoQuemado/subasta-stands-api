@@ -138,12 +138,74 @@ app.post('/updateBalance', (req, res) => {
     }
 })
 
+app.get('/getTransactions', (req, res) => {
+    const { user_id } = req.body;
+
+    db.select('title','amount')
+    .from('transactions')
+    .where('user_id','=' ,user_id)
+    .then(transactions => {
+        res.json(transactions)
+    })
+})
+
+app.post('/registerTransaction', (req, res) => {
+    const { user_id, valid_code_id, title, amount } = req.body;
+    const timestamp = new Date();
+
+    db.transaction(trx => {
+        trx.insert({
+            user_id: user_id,
+            title: title,
+            amount: amount,
+            valid_code_id, valid_code_id,
+            date_time: timestamp
+        })
+        .into('transactions')
+        .then(trx.commit)
+        .catch(trx.rollback)
+    })
+    .then(() => {
+
+        db.select('balance').from('users')
+        .where("id","=",user_id)
+        .then(balance => {
+            current_balance = parseInt(balance[0].balance);
+            add_amount = parseInt(amount);
+            new_balance = current_balance + add_amount;
+            return new_balance;
+        })
+        .then(new_balance => {
+            db('users')
+            .where('id','=',user_id)
+            .update({
+                balance: new_balance,
+                updated_at: timestamp   
+            })
+            .then(() => {
+                res.json('Success updating balance and creating transaction on user ' + user_id)
+            }
+            )
+        })
+        .catch(err => res.status(500).json('error updating balance ' + err))
+    })
+    .catch(err => res.status(500).json('error at inserting transaction ' + err))
+})
+
 app.get('/getUsersInfo', (req, res) => {
     db.select('name','balance','email','id')
     .from('users')
     .then(users => {
         return res.json(users);
     });
+})
+
+app.get('/getValidCodes', (req, res) => {
+    db.select('*')
+    .from('valid_codes')
+    .then(codes => {
+        return res.json(codes);
+    })
 })
 
 app.get('/', (req, res) => {
