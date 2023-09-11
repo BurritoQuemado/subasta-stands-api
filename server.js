@@ -192,6 +192,20 @@ app.post('/registerTransaction', (req, res) => {
     .catch(err => res.status(500).json('error at inserting transaction ' + err))
 })
 
+app.get('/getCodesUsed', (req, res) => {
+
+    const { user_id } = req.body;
+
+    db('transactions')
+    .join('valid_codes', 'transactions.valid_code_id','=','valid_codes.id')
+    .select('valid_codes.code', 'valid_codes.description')
+    .where('transactions.user_id','=',user_id)
+    .then(visitedCodes => {
+        res.json(visitedCodes)
+    })
+    .catch(err => res.status(500).json('Error while getting user visited codes on user ' + user_id + ': ' + err.message))
+})
+
 app.get('/getUsersInfo', (req, res) => {
     db.select('name','balance','email','id')
     .from('users')
