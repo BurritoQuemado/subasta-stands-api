@@ -140,13 +140,43 @@ app.post('/updateBalance', (req, res) => {
 
 app.get('/getTransactions', (req, res) => {
     const { user_id } = req.body;
-
+    var user_transactions = [];
+    var user_name = "";
+    var user_balance = "";
+    var valid_codes = [];
     db.select('title','amount')
     .from('transactions')
     .where('user_id','=' ,user_id)
     .then(transactions => {
-        res.json(transactions)
+        user_transactions = transactions;
     })
+    .then(() => {
+        db.select('name','lastname','balance')
+        .from('users')
+        .where('id','=' ,user_id)
+        .then(user => {
+            user_name = user[0].name + ' ' + user[0].lastname;
+            user_balance = user[0].balance;
+        })
+        .then(() => {
+           db.select("*")
+           .from('valid_codes')
+           .then(db_valid_codes => {
+                valid_codes = db_valid_codes;
+           })
+           .then(() => {
+                res.json({
+                    name: user_name,
+                    balance: user_balance,
+                    transactions: user_transactions,
+                    valid_codes: valid_codes
+                })
+           })
+        }
+        )
+    })
+    .catch(err => res.json("error"+err.message))
+   
 })
 
 app.post('/registerTransaction', (req, res) => {
