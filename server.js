@@ -45,7 +45,7 @@ app.post('/signin', (req, res) => {
 })
 
 app.post('/register', (req, res) => {
-    const { name, lastname, email, password } = req.body;
+    const { name, lname, email, password } = req.body;
     const hash = bcrypt.hashSync(password, 18);
     const timestamp = new Date();
 
@@ -62,7 +62,7 @@ app.post('/register', (req, res) => {
             .insert({
                 email: loginEmail[0].email,
                 name: name,
-                lastname: lastname,
+                lastname: lname,
                 created_at: timestamp,
                 updated_at: timestamp
             })
@@ -138,8 +138,8 @@ app.post('/updateBalance', (req, res) => {
     }
 })
 
-app.get('/getTransactions', (req, res) => {
-    const { user_id } = req.body;
+app.get('/getTransactions/:user_id', (req, res) => {
+    const { user_id } = req.params;
     var user_transactions = [];
     var user_name = "";
     var user_balance = "";
